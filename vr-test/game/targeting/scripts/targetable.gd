@@ -27,6 +27,6 @@ func _process(delta: float) -> void:
 		
 		if progress >= lock_on_time and not locked:
 			locked = true
-			locked_on.emit()
+			locked_on.emit(self)
 		elif progress < lock_on_time and locked:
 			locked = false

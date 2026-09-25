@@ -15,6 +15,8 @@ var quad_size: Vector2
 var quad_local_pos: Vector3
 var target_local_pos: Vector3
 
+signal lock_on_confirmed
+
 func _process(delta: float) -> void:
 	if idle:
 		return
@@ -25,8 +27,9 @@ func _process(delta: float) -> void:
 func project_point_viewport(point: Vector3) -> Vector2:
 	var target_depth: float = -point.z
 	var quad_dist: float = -quad_local_pos.z
-	
-	#need divide by 0 check
+	#divide by 0 safety check
+	if target_depth == 0:
+		return Vector2(9999,9999)
 	var dist_scalar: float = quad_dist / target_depth
 	
 	texture_rect.size = texture_rect.texture.get_size() * (2+dist_scalar) #scaling is temp
@@ -65,9 +68,6 @@ func stop_target():
 	idle = true
 
 
-func _on_locked_on():
-	if target == null:
-		return
-	
+func _on_locked_on(_locked_target: Targetable):
 	texture_rect.texture = texture_done
-	print(target)
+	lock_on_confirmed.emit(_locked_target)
