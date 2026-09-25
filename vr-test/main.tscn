@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bqrpmc6sey5u3"]
 
 [ext_resource type="PackedScene" uid="uid://bvi06vl38316k" path="res://levels/level.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://buy0x5o76rddf" path="res://targetable_move.gd" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://byn0p2bd83khf" path="res://game/targeting/scenes/vr_targeting.tscn" id="3_1bvp3"]
-[ext_resource type="Script" uid="uid://lp15ljclvyaa" path="res://game/targeting/scripts/targetable.gd" id="3_h2yge"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(0.007843138, 0.015686275, 0.023529412, 1)
@@ -35,9 +35,9 @@ shadow_enabled = true
 [node name="Level" parent="." unique_id=168350376 instance=ExtResource("2_0xm2m")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=587618807 node_paths=PackedStringArray("mesh_instance")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4438658, 2.6706905, -5.170688)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.443867, 2.6706905, -47.17069)
 mesh = SubResource("SphereMesh_3lrjh")
-script = ExtResource("3_h2yge")
+script = ExtResource("2_h2yge")
 mesh_instance = NodePath(".")
 
 [node name="VrTargeting" parent="." unique_id=1400519358 node_paths=PackedStringArray("target") instance=ExtResource("3_1bvp3")]

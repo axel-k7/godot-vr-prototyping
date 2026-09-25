@@ -22,9 +22,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if being_targeted || (not being_targeted and progress > 0):
 		progress += delta * (int(being_targeted) * 2 - 1)
+		progress = clamp(progress, 0.0, lock_on_time)
 		target_material.albedo_color = lerp(base_albedo, Color.RED, progress)
 		
-		if progress > lock_on_time and not locked:
+		if progress >= lock_on_time and not locked:
 			locked = true
 			locked_on.emit()
 		elif progress < lock_on_time and locked:
