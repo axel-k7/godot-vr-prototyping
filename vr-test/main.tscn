@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bqrpmc6sey5u3"]
+
+[ext_resource type="PackedScene" uid="uid://bvi06vl38316k" path="res://levels/level.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://byn0p2bd83khf" path="res://game/targeting/scenes/vr_targeting.tscn" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://lp15ljclvyaa" path="res://game/targeting/scripts/targetable.gd" id="3_h2yge"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_top_color = Color(0.007843138, 0.015686275, 0.023529412, 1)
+sky_horizon_color = Color(0.46225387, 0.4705807, 0.48724592, 1)
+ground_bottom_color = Color(0.007843138, 0.015686275, 0.023529412, 1)
+ground_horizon_color = Color(0.46225387, 0.4705807, 0.48724592, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_3lrjh"]
+material = SubResource("StandardMaterial3D_0xm2m")
+
+[node name="Main" type="Node3D" unique_id=1362817732]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1144370294]
+environment = SubResource("Environment_h2yge")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2037768637]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Level" parent="." unique_id=168350376 instance=ExtResource("2_0xm2m")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=587618807 node_paths=PackedStringArray("mesh_instance")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4438658, 2.6706905, -5.170688)
+mesh = SubResource("SphereMesh_3lrjh")
+script = ExtResource("3_h2yge")
+mesh_instance = NodePath(".")
+
+[node name="VrTargeting" parent="." unique_id=1400519358 node_paths=PackedStringArray("target") instance=ExtResource("3_1bvp3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5074487, 0.049999524, -1.8425059)
+target = NodePath("../MeshInstance3D")

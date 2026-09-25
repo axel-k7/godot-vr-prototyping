@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bfnjmguw3ygbp"]
+
+[ext_resource type="Script" uid="uid://cgsgaap8oh5p3" path="res://vr/vr_instance.gd" id="1_3mv62"]
+[ext_resource type="PackedScene" uid="uid://c4t8ayg3lhdqp" path="res://vr/camera/camera.tscn" id="1_buiac"]
+[ext_resource type="PackedScene" uid="uid://b7daxgr0rrnln" path="res://vr/controllers/left_hand.tscn" id="2_x4swu"]
+[ext_resource type="PackedScene" uid="uid://crdeipdg8o8wf" path="res://vr/controllers/right_hand.tscn" id="3_3mv62"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3mv62"]
+
+[node name="VrInstance" type="XROrigin3D" unique_id=2019682291 node_paths=PackedStringArray("camera", "left_hand", "right_hand")]
+script = ExtResource("1_3mv62")
+camera = NodePath("Camera")
+left_hand = NodePath("LeftHand")
+right_hand = NodePath("RightHand")
+body_shape = SubResource("CapsuleShape3D_3mv62")
+
+[node name="Camera" parent="." unique_id=1120840776 instance=ExtResource("1_buiac")]
+
+[node name="LeftHand" parent="." unique_id=806129621 instance=ExtResource("2_x4swu")]
+
+[node name="RightHand" parent="." unique_id=948813075 instance=ExtResource("3_3mv62")]

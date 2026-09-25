@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://crdeipdg8o8wf"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_l3mth"]
+radius = 0.05
+height = 0.1
+
+[node name="RightHand" type="XRController3D" unique_id=806129621]
+tracker = &"right_hand"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1152730665]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.06)
+mesh = SubResource("SphereMesh_l3mth")

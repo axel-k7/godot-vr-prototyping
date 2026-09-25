@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dd5s0atfcsags"]
+
+[ext_resource type="Texture2D" uid="uid://blt5lk1sxcvyb" path="res://assets/tiling/tiling_basic.png" id="1_c6f8d"]
+
+[resource]
+albedo_texture = ExtResource("1_c6f8d")
+uv1_triplanar = true
+uv1_world_triplanar = true
