@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://crdeipdg8o8wf"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_l3mth"]
-radius = 0.05
-height = 0.1
+[ext_resource type="Script" uid="uid://be4qon4rbetux" path="res://vr/controllers/controller.gd" id="1_kjx7l"]
 
-[node name="RightHand" type="XRController3D" unique_id=806129621]
+[sub_resource type="BoxShape3D" id="BoxShape3D_kjx7l"]
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2vlbs"]
+size = Vector3(0.05, 0.05, 0.05)
+
+[node name="RightHand" type="XRController3D" unique_id=806129621 node_paths=PackedStringArray("mesh")]
 tracker = &"right_hand"
+script = ExtResource("1_kjx7l")
+collision_shape = SubResource("BoxShape3D_kjx7l")
+mesh = NodePath("MeshInstance3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1152730665]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.06)
-mesh = SubResource("SphereMesh_l3mth")
+mesh = SubResource("BoxMesh_2vlbs")

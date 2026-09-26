@@ -92,8 +92,7 @@ func _project_point_viewport(point: Vector3, view: UIView) -> Vector2:
 	var target_local: Vector3 = view_transform_inverse * point
 	
 	var target_depth: float = -target_local.z
-	#divide by 0 safety check
-	if target_depth == 0:
+	if target_depth <= 0:
 		return Vector2(9999,9999)
 		
 	var quad_dist: float = -quad_local.z
@@ -128,12 +127,11 @@ func _set_up_movement() -> void:
 	PhysicsServer3D.body_set_space(body_rid, get_world_3d().space)
 	PhysicsServer3D.body_set_mode(body_rid, PhysicsServer3D.BODY_MODE_KINEMATIC)
 	PhysicsServer3D.body_add_shape(body_rid, body_shape.get_rid(), Transform3D.IDENTITY)
-	PhysicsServer3D.body_set_collision_layer(body_rid, 1)
-	PhysicsServer3D.body_set_collision_mask(body_rid, 1)
+	PhysicsServer3D.body_set_collision_layer(body_rid, 0b00000010)
+	PhysicsServer3D.body_set_collision_mask(body_rid, 0b00000001)
 	
 	parameters.margin = 0.04
 	parameters.recovery_as_collision = true
-	
 
 func _physics_process(delta: float) -> void:
 	if !body_rid.is_valid():
@@ -230,3 +228,7 @@ func _move_input_changed(action_name: String, value: Vector2) -> void:
 
 func _rotation_input_changed(action_name: String, value: Vector2) -> void:
 	rot_axis = value
+
+func _exit_tree() -> void:
+	if body_rid.is_valid():
+		PhysicsServer3D.free_rid(body_rid)

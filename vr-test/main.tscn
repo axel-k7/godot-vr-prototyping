@@ -3,9 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bvi06vl38316k" path="res://levels/level.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://buy0x5o76rddf" path="res://targetable_move.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://bk0bhphnrb84u" path="res://headtargetingtestt.gd" id="3_7mycd"]
-[ext_resource type="PackedScene" uid="uid://c4t8ayg3lhdqp" path="res://vr/camera/camera.tscn" id="4_5vw27"]
-[ext_resource type="PackedScene" uid="uid://b7daxgr0rrnln" path="res://vr/controllers/left_hand.tscn" id="5_kek77"]
-[ext_resource type="PackedScene" uid="uid://crdeipdg8o8wf" path="res://vr/controllers/right_hand.tscn" id="6_4c57u"]
+[ext_resource type="PackedScene" uid="uid://bfnjmguw3ygbp" path="res://vr/vr_instance.tscn" id="4_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://dka2kyiv3u8cy" path="res://assets/crosshairs/images/image0039.png" id="7_272bh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
@@ -27,7 +25,17 @@ glow_enabled = true
 [sub_resource type="SphereMesh" id="SphereMesh_3lrjh"]
 material = SubResource("StandardMaterial3D_0xm2m")
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7mycd"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
+radius = 0.2
+height = 1.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
+albedo_color = Color(0.1254902, 0.30980393, 0.827451, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lquwl"]
+material = SubResource("StandardMaterial3D_lquwl")
+radius = 0.2
+height = 1.4
 
 [node name="Main" type="Node3D" unique_id=1362817732]
 
@@ -46,44 +54,14 @@ mesh = SubResource("SphereMesh_3lrjh")
 script = ExtResource("2_h2yge")
 mesh_instance = NodePath(".")
 
-[node name="VrInstance" type="XROrigin3D" parent="." unique_id=2019682291 node_paths=PackedStringArray("target", "target_left_rect", "static_left", "camera", "left_hand", "right_hand", "left_quad", "right_quad")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15698624, 3.049999, -0.50012755)
+[node name="VrInstance" parent="." unique_id=2019682291 node_paths=PackedStringArray("target", "target_left_rect", "static_left") instance=ExtResource("4_1bvp3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("3_7mycd")
 target = NodePath("../MeshInstance3D")
-target_left_rect = NodePath("TextureRect")
-static_left = NodePath("Control")
-camera = NodePath("Camera")
-left_hand = NodePath("LeftHand")
-right_hand = NodePath("RightHand")
-body_shape = SubResource("CapsuleShape3D_7mycd")
-left_quad = NodePath("Camera/LeftUIQuad")
-right_quad = NodePath("Camera/RightUIQuad")
+target_left_rect = NodePath("../TextureRect")
+static_left = NodePath("../Control")
 
-[node name="Camera" parent="VrInstance" unique_id=1120840776 instance=ExtResource("4_5vw27")]
-
-[node name="LeftUIQuad" type="OpenXRCompositionLayerQuad" parent="VrInstance/Camera" unique_id=1356219584 node_paths=PackedStringArray("layer_viewport")]
-layer_viewport = NodePath("../../LeftUIViewport")
-alpha_blend = true
-eye_visibility = 1
-
-[node name="RightUIQuad" type="OpenXRCompositionLayerQuad" parent="VrInstance/Camera" unique_id=1842106081 node_paths=PackedStringArray("layer_viewport")]
-layer_viewport = NodePath("../../RightUIViewport")
-alpha_blend = true
-eye_visibility = 2
-
-[node name="LeftHand" parent="VrInstance" unique_id=806129621 instance=ExtResource("5_kek77")]
-
-[node name="RightHand" parent="VrInstance" unique_id=948813075 instance=ExtResource("6_4c57u")]
-
-[node name="LeftUIViewport" type="SubViewport" parent="VrInstance" unique_id=634887350]
-transparent_bg = true
-render_target_update_mode = 4
-
-[node name="RightUIViewport" type="SubViewport" parent="VrInstance" unique_id=1928900244]
-transparent_bg = true
-render_target_update_mode = 4
-
-[node name="TextureRect" type="TextureRect" parent="VrInstance" unique_id=989830308]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=989830308]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -97,7 +75,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_272bh")
 
-[node name="Control" type="Control" parent="VrInstance" unique_id=2062290427]
+[node name="Control" type="Control" parent="." unique_id=2062290427]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -111,13 +89,13 @@ offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="VrInstance/Control" unique_id=1902663535]
+[node name="Label" type="Label" parent="Control" unique_id=1902663535]
 layout_mode = 1
 offset_right = 40.0
 offset_bottom = 23.0
 text = "This text is anchored to the top left!"
 
-[node name="Label2" type="Label" parent="VrInstance/Control" unique_id=299386627]
+[node name="Label2" type="Label" parent="Control" unique_id=299386627]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -129,3 +107,18 @@ offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "This text is anchored to the bottom right!"
+
+[node name="PinJoint3D" type="PinJoint3D" parent="." unique_id=580116339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5770988, 2.1112366, -0.9999999)
+node_a = NodePath("RigidBody3D")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="PinJoint3D" unique_id=334292333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.73421276, 0)
+collision_mask = 3
+mass = 20.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PinJoint3D/RigidBody3D" unique_id=1502444689]
+shape = SubResource("CapsuleShape3D_lquwl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PinJoint3D/RigidBody3D" unique_id=1741503312]
+mesh = SubResource("CapsuleMesh_lquwl")
