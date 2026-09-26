@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://d0oem3hh1gyy2"]
+
+[ext_resource type="Script" uid="uid://cgsgaap8oh5p3" path="res://vr/vr_instance.gd" id="1_xq8q7"]
+
+[node name="ShooterPlayer" type="XROrigin3D" unique_id=883594130]
+script = ExtResource("1_xq8q7")
+metadata/_custom_type_script = "uid://cgsgaap8oh5p3"

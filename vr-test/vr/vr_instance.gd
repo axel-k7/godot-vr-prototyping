@@ -12,6 +12,7 @@ enum MovementPreference {
 @export var right_hand: XRController3D
 
 var xr_interface : XRInterface
+var aspect_ratio: float
 ##VR-------------------------
 
 
@@ -56,8 +57,12 @@ func _ready() -> void:
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	get_viewport().use_xr = true
 	
+	var render_target_size = xr_interface.get_render_target_size()
+	var aspect_ratio: float = render_target_size.x / render_target_size.y
+	
 	_set_up_ui()
 	_set_up_movement()
+	_bind_inputs()
 
 
 func _set_up_ui() -> void:
@@ -83,7 +88,6 @@ func add_ui(node: Control) -> Control:
 	copy.position = right_center - (copy.size * 0.5)
 	
 	return copy
-
 
 func _project_point_viewport(point: Vector3, view: UIView) -> Vector2:
 	var view_transform_inverse: Transform3D = xr_interface.get_transform_for_view(view.index, global_transform).affine_inverse()
@@ -115,14 +119,6 @@ func _project_point_viewport(point: Vector3, view: UIView) -> Vector2:
 
 
 func _set_up_movement() -> void:
-	match movement_pref:
-		MovementPreference.LEFT_CONTROLLER:
-			left_hand.input_vector2_changed.connect(_move_input_changed)
-			right_hand.input_vector2_changed.connect(_rotation_input_changed)
-		MovementPreference.RIGHT_CONTROLLER:
-			right_hand.input_vector2_changed.connect(_move_input_changed)
-			left_hand.input_vector2_changed.connect(_rotation_input_changed)
-		
 	body_rid = PhysicsServer3D.body_create()
 	PhysicsServer3D.body_set_space(body_rid, get_world_3d().space)
 	PhysicsServer3D.body_set_mode(body_rid, PhysicsServer3D.BODY_MODE_KINEMATIC)
@@ -221,6 +217,15 @@ func _get_projected_transform() -> Transform3D:
 	body_transform.origin += global_basis * camera_offset
 	
 	return body_transform
+
+func _bind_inputs() -> void:
+	match movement_pref:
+		MovementPreference.LEFT_CONTROLLER:
+			left_hand.input_vector2_changed.connect(_move_input_changed)
+			right_hand.input_vector2_changed.connect(_rotation_input_changed)
+		MovementPreference.RIGHT_CONTROLLER:
+			right_hand.input_vector2_changed.connect(_move_input_changed)
+			left_hand.input_vector2_changed.connect(_rotation_input_changed)
 
 
 func _move_input_changed(action_name: String, value: Vector2) -> void:
