@@ -7,15 +7,35 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3mv62"]
 
-[node name="VrInstance" type="XROrigin3D" unique_id=2019682291 node_paths=PackedStringArray("camera", "left_hand", "right_hand")]
+[node name="VrInstance" type="XROrigin3D" unique_id=2019682291 node_paths=PackedStringArray("camera", "left_hand", "right_hand", "left_quad", "right_quad")]
 script = ExtResource("1_3mv62")
 camera = NodePath("Camera")
 left_hand = NodePath("LeftHand")
 right_hand = NodePath("RightHand")
 body_shape = SubResource("CapsuleShape3D_3mv62")
+left_quad = NodePath("Camera/LeftUIQuad")
+right_quad = NodePath("Camera/RightUIQuad")
 
 [node name="Camera" parent="." unique_id=1120840776 instance=ExtResource("1_buiac")]
+
+[node name="LeftUIQuad" type="OpenXRCompositionLayerQuad" parent="Camera" unique_id=1356219584 node_paths=PackedStringArray("layer_viewport")]
+layer_viewport = NodePath("../../LeftUIViewport")
+alpha_blend = true
+eye_visibility = 1
+
+[node name="RightUIQuad" type="OpenXRCompositionLayerQuad" parent="Camera" unique_id=1842106081 node_paths=PackedStringArray("layer_viewport")]
+layer_viewport = NodePath("../../RightUIViewport")
+alpha_blend = true
+eye_visibility = 2
 
 [node name="LeftHand" parent="." unique_id=806129621 instance=ExtResource("2_x4swu")]
 
 [node name="RightHand" parent="." unique_id=948813075 instance=ExtResource("3_3mv62")]
+
+[node name="LeftUIViewport" type="SubViewport" parent="." unique_id=634887350]
+transparent_bg = true
+render_target_update_mode = 4
+
+[node name="RightUIViewport" type="SubViewport" parent="." unique_id=1928900244]
+transparent_bg = true
+render_target_update_mode = 4

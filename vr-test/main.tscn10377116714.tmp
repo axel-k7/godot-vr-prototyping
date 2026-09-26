@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://c4t8ayg3lhdqp" path="res://vr/camera/camera.tscn" id="4_5vw27"]
 [ext_resource type="PackedScene" uid="uid://b7daxgr0rrnln" path="res://vr/controllers/left_hand.tscn" id="5_kek77"]
 [ext_resource type="PackedScene" uid="uid://crdeipdg8o8wf" path="res://vr/controllers/right_hand.tscn" id="6_4c57u"]
-[ext_resource type="Texture2D" uid="uid://dka2kyiv3u8cy" path="res://assets/crosshairs/images/image0039.png" id="7_272bh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(0.007843138, 0.015686275, 0.023529412, 1)
@@ -29,6 +28,8 @@ material = SubResource("StandardMaterial3D_0xm2m")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7mycd"]
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_l3mth"]
+
 [node name="Main" type="Node3D" unique_id=1362817732]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1144370294]
@@ -46,12 +47,11 @@ mesh = SubResource("SphereMesh_3lrjh")
 script = ExtResource("2_h2yge")
 mesh_instance = NodePath(".")
 
-[node name="VrInstance" type="XROrigin3D" parent="." unique_id=2019682291 node_paths=PackedStringArray("target", "target_left_rect", "static_left", "camera", "left_hand", "right_hand", "left_quad", "right_quad")]
+[node name="VrInstance" type="XROrigin3D" parent="." unique_id=2019682291 node_paths=PackedStringArray("target", "left_rect", "camera", "left_hand", "right_hand", "left_quad", "right_quad")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15698624, 3.049999, -0.50012755)
 script = ExtResource("3_7mycd")
 target = NodePath("../MeshInstance3D")
-target_left_rect = NodePath("TextureRect")
-static_left = NodePath("Control")
+left_rect = NodePath("TextureRect")
 camera = NodePath("Camera")
 left_hand = NodePath("LeftHand")
 right_hand = NodePath("RightHand")
@@ -83,49 +83,7 @@ render_target_update_mode = 4
 transparent_bg = true
 render_target_update_mode = 4
 
-[node name="TextureRect" type="TextureRect" parent="VrInstance" unique_id=989830308]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_272bh")
-
-[node name="Control" type="Control" parent="VrInstance" unique_id=2062290427]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -400.0
-offset_right = 400.0
-offset_bottom = 400.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="VrInstance/Control" unique_id=1902663535]
-layout_mode = 1
+[node name="TextureRect" type="TextureRect" parent="VrInstance" unique_id=555420324]
 offset_right = 40.0
-offset_bottom = 23.0
-text = "This text is anchored to the top left!"
-
-[node name="Label2" type="Label" parent="VrInstance/Control" unique_id=299386627]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -276.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "This text is anchored to the bottom right!"
+offset_bottom = 40.0
+texture = SubResource("PlaceholderTexture2D_l3mth")

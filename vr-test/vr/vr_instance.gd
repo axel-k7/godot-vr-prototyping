@@ -6,29 +6,46 @@ enum MovementPreference {
 	RIGHT_CONTROLLER
 }
 
-const MOVE_SPEED := 5.0
-const ROT_SENS := 0.05
-
+##VR-------------------------
 @export var camera: XRCamera3D
 @export var left_hand: XRController3D
 @export var right_hand: XRController3D
-@export var movement_pref := MovementPreference.LEFT_CONTROLLER
 
+var xr_interface : XRInterface
+##VR-------------------------
+
+
+##MOVEMENT-------------------
+@export var movement_pref := MovementPreference.LEFT_CONTROLLER
 @export var body_shape: Shape3D
+
+const MOVE_SPEED := 5.0
+const ROT_SENS := 0.05
+
 var body_rid : RID
 var parameters := PhysicsTestMotionParameters3D.new()
-
 var velocity := Vector3.ZERO
 var acceleration := Vector3.ZERO
 var grounded: bool = false
 const MAX_SLIDE := 4
 const GRAVITY := -9.82 
 
-var xr_interface : XRInterface
-
 var move_axis := Vector2.ZERO
 var rot_axis := Vector2.ZERO
+##MOVEMENT--------------------
 
+
+##UI--------------------------
+@export var left_quad: OpenXRCompositionLayerQuad
+@export var right_quad: OpenXRCompositionLayerQuad
+@export var ui_distance: float = 1.0
+@export var near_clip: float = 0.005
+@export var far_clip: float = 5000.0
+
+var left_ui: UIView
+var right_ui: UIView
+
+##UI--------------------------
 
 func _ready() -> void:
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -39,6 +56,66 @@ func _ready() -> void:
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	get_viewport().use_xr = true
 	
+	_set_up_ui()
+	_set_up_movement()
+
+
+func _set_up_ui() -> void:
+	left_ui = UIView.new(left_quad, camera, near_clip, far_clip, camera.fov, ui_distance, xr_interface, 0)
+	right_ui = UIView.new(right_quad, camera, near_clip, far_clip, camera.fov, ui_distance, xr_interface, 1)
+
+#"node" becomes left-view, "copy" is right-view
+func add_ui(node: Control) -> Control:
+	var copy = node.duplicate()
+	if node.get_parent():
+		node.get_parent().remove_child(node)
+		
+	left_ui.ui_root.add_child(node)
+	right_ui.ui_root.add_child(copy)
+	
+	var forward: Vector3 = camera.global_transform * (Vector3.FORWARD * ui_distance)
+	
+	var left_center: Vector2 = _project_point_viewport(forward, left_ui)
+	var right_center: Vector2 = _project_point_viewport(forward, right_ui)
+	
+	#assuming the elements want to be centered
+	node.position = left_center - (node.size * 0.5)
+	copy.position = right_center - (copy.size * 0.5)
+	
+	return copy
+
+
+func _project_point_viewport(point: Vector3, view: UIView) -> Vector2:
+	var view_transform_inverse: Transform3D = xr_interface.get_transform_for_view(view.index, global_transform).affine_inverse()
+	
+	var quad_local: Vector3 = view_transform_inverse * view.quad.global_position
+	var target_local: Vector3 = view_transform_inverse * point
+	
+	var target_depth: float = -target_local.z
+	#divide by 0 safety check
+	if target_depth == 0:
+		return Vector2(9999,9999)
+		
+	var quad_dist: float = -quad_local.z
+	var dist_scalar: float = quad_dist / target_depth
+	
+	var quad_intersection: Vector2 = Vector2(
+		(target_local.x * dist_scalar) - quad_local.x,
+		(target_local.y * dist_scalar) - quad_local.y
+	)
+	
+	#normalize to quad uv position
+	quad_intersection /= view.quad.quad_size
+	
+	var viewport_pos: Vector2 = Vector2(
+		quad_intersection.x + 0.5,
+		-quad_intersection.y + 0.5,
+	) * Vector2(view.quad.layer_viewport.size)
+	
+	return viewport_pos
+
+
+func _set_up_movement() -> void:
 	match movement_pref:
 		MovementPreference.LEFT_CONTROLLER:
 			left_hand.input_vector2_changed.connect(_move_input_changed)
@@ -56,7 +133,7 @@ func _ready() -> void:
 	
 	parameters.margin = 0.04
 	parameters.recovery_as_collision = true
-
+	
 
 func _physics_process(delta: float) -> void:
 	if !body_rid.is_valid():
