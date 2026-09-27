@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://cgyjdicb341bh"]
+
+[ext_resource type="Script" uid="uid://b08b3vb22o60s" path="res://vr/controllers/iktest.gd" id="1_2feiv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l3mth"]
+transparency = 1
+albedo_color = Color(0.4745098, 1, 1, 0.6392157)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6l52r"]
+material = SubResource("StandardMaterial3D_l3mth")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2feiv"]
+albedo_color = Color(1, 0.7490196, 0.3019608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2feiv"]
+material = SubResource("StandardMaterial3D_2feiv")
+size = Vector3(0.05, 0.05, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6xvv"]
+albedo_color = Color(0.23921569, 0.47843137, 0.3019608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_oiv1o"]
+material = SubResource("StandardMaterial3D_m6xvv")
+size = Vector3(0.05, 0.05, 0.4)
+
+[node name="iktest" type="Node3D" unique_id=722369590]
+script = ExtResource("1_2feiv")
+
+[node name="shoulder" type="Node3D" parent="." unique_id=75960850]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="shoulder" unique_id=1581751647]
+mesh = SubResource("SphereMesh_6l52r")
+
+[node name="elbow" type="Node3D" parent="." unique_id=423039884]
+top_level = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="elbow" unique_id=2026039075]
+mesh = SubResource("SphereMesh_6l52r")
+
+[node name="hand" type="Node3D" parent="." unique_id=1187248251]
+top_level = true
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="hand" unique_id=722825260]
+mesh = SubResource("SphereMesh_6l52r")
+
+[node name="UpperArmMesh" type="MeshInstance3D" parent="." unique_id=1380898130]
+mesh = SubResource("BoxMesh_2feiv")
+
+[node name="LowerArmMesh" type="MeshInstance3D" parent="." unique_id=792136436]
+mesh = SubResource("BoxMesh_oiv1o")
