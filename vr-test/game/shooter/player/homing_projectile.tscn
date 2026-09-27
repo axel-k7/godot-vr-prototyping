@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://pawortt3eplp"]
+
+[ext_resource type="Script" uid="uid://ydm2rrrsbggr" path="res://game/shooter/player/homing_projectile.gd" id="1_2oqp5"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3lrjh"]
+radius = 0.1
+height = 3.0
+
+[node name="HomingProjectile" type="Node3D" unique_id=445949607]
+script = ExtResource("1_2oqp5")
+homing_speed = 2.0
+metadata/_custom_type_script = "uid://ydm2rrrsbggr"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1190145465]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_3lrjh")

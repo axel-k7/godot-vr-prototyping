@@ -6,7 +6,7 @@ const DISTANCE_SNAP_RANGE: float = 0.5
 @export var linear_scale: float = 30.0
 @export var angular_scale: float = 30.0
 @export var collision_shape: Shape3D
-@export var mesh: MeshInstance3D
+@export var mesh: Node3D
 
 var body_rid: RID
 
@@ -49,9 +49,6 @@ func _physics_process(delta: float) -> void:
 	var angular_velocity = axis * (angle * angular_scale)
 
 	PhysicsServer3D.body_set_state(body_rid, PhysicsServer3D.BODY_STATE_ANGULAR_VELOCITY, angular_velocity)
-		
-	print('hand position :', global_position)
-	print('collider position :', body_transform.origin)
 
 
 func _exit_tree() -> void:

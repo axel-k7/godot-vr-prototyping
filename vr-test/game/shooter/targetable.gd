@@ -12,6 +12,7 @@ var locked := false
 var progress := 0.0
 
 signal locked_on
+signal lock_on_fail
 
 func _ready() -> void:
 	var material := mesh_instance.get_active_material(0) as StandardMaterial3D 
@@ -30,3 +31,4 @@ func _process(delta: float) -> void:
 			locked_on.emit(self)
 		elif progress < lock_on_time and locked:
 			locked = false
+			lock_on_fail.emit(self)
