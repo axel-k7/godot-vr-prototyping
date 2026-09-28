@@ -1,9 +1,7 @@
 [gd_scene format=4 uid="uid://crdeipdg8o8wf"]
 
-[ext_resource type="Script" uid="uid://be4qon4rbetux" path="res://vr/controllers/controller.gd" id="1_kjx7l"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_kjx7l"]
-size = Vector3(0.05, 0.05, 0.05)
+[ext_resource type="Script" uid="uid://be4qon4rbetux" path="res://vr/controllers/controller.gd" id="1_02r8u"]
+[ext_resource type="Script" uid="uid://bhaqfqfswudyb" path="res://vr/vr_body.gd" id="2_punvi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8drmj"]
 resource_name = "Material"
@@ -77,10 +75,13 @@ bind/2/name = &"neutral_bone"
 bind/2/bone = -1
 bind/2/pose = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 4.882671e-07, -2.7398965, -2.1390166)
 
-[node name="RightHand" type="XRController3D" unique_id=806129621 node_paths=PackedStringArray("mesh")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_f35tl"]
+size = Vector3(0.05, 0.1, 0.1)
+
+[node name="RightHand" type="XRController3D" unique_id=806129621 node_paths=PackedStringArray("collision", "mesh")]
 tracker = &"right_hand"
-script = ExtResource("1_kjx7l")
-collision_shape = SubResource("BoxShape3D_kjx7l")
+script = ExtResource("1_02r8u")
+collision = NodePath("VRBody")
 mesh = NodePath("Node3D")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=291871616]
@@ -118,3 +119,9 @@ bones/2/scale = Vector3(1, 1, 1)
 mesh = SubResource("ArrayMesh_7fcvs")
 skin = SubResource("Skin_c887w")
 skeleton = NodePath("..")
+
+[node name="VRBody" type="Node" parent="." unique_id=1954290829 node_paths=PackedStringArray("reference_node")]
+script = ExtResource("2_punvi")
+collision_shape = SubResource("BoxShape3D_f35tl")
+reference_node = NodePath("..")
+metadata/_custom_type_script = "uid://bhaqfqfswudyb"

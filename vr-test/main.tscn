@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bvi06vl38316k" path="res://levels/level.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://buy0x5o76rddf" path="res://targetable_move.gd" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://d0oem3hh1gyy2" path="res://game/shooter/player/shooter_player.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://d0oem3hh1gyy2" path="res://game/shooter/player/body/scenes/shooter_player.tscn" id="3_h2yge"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_top_color = Color(0.007843138, 0.015686275, 0.023529412, 1)
@@ -63,9 +63,6 @@ shape = SubResource("CapsuleShape3D_lquwl")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PinJoint3D/RigidBody3D" unique_id=1741503312]
 mesh = SubResource("CapsuleMesh_lquwl")
 
-[node name="ShooterPlayer" parent="." unique_id=883594130 instance=ExtResource("3_h2yge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-
 [node name="targets" type="Node" parent="." unique_id=647942963]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="targets" unique_id=587618807 node_paths=PackedStringArray("mesh_instance")]
@@ -107,3 +104,6 @@ mesh = SubResource("SphereMesh_3lrjh")
 script = ExtResource("2_h2yge")
 speed_scale = 1.2
 mesh_instance = NodePath(".")
+
+[node name="ShooterPlayer" parent="." unique_id=883594130 instance=ExtResource("3_h2yge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9461007, 3.1799996, -4.298352)

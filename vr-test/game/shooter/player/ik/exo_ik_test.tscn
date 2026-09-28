@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://ykkelc7hp7jh"]
+
+[ext_resource type="Script" uid="uid://ddqio3gmkapk5" path="res://game/shooter/player/ik/exo_ik_test.gd" id="1_flvj2"]
+[ext_resource type="Script" uid="uid://bhaqfqfswudyb" path="res://vr/vr_body.gd" id="2_u5xi8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l3mth"]
+transparency = 1
+albedo_color = Color(0.4745098, 1, 1, 0.6392157)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6l52r"]
+material = SubResource("StandardMaterial3D_l3mth")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2feiv"]
+albedo_color = Color(1, 0.7490196, 0.3019608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2feiv"]
+material = SubResource("StandardMaterial3D_2feiv")
+size = Vector3(1, 1, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6xvv"]
+albedo_color = Color(0.23921569, 0.47843137, 0.3019608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_oiv1o"]
+material = SubResource("StandardMaterial3D_m6xvv")
+size = Vector3(1, 1, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l3mth"]
+size = Vector3(1, 1, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bm73i"]
+size = Vector3(1, 1, 7)
+
+[node name="exoiktest" type="Node3D" unique_id=722369590 node_paths=PackedStringArray("upper_collision", "lower_collision")]
+script = ExtResource("1_flvj2")
+upper_collision = NodePath("UpperArm/VRBody")
+lower_collision = NodePath("LowerArm/VRBody")
+upper_arm_length = 6.0
+lower_arm_length = 7.0
+
+[node name="shoulder" type="Node3D" parent="." unique_id=75960850]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="shoulder" unique_id=1581751647]
+mesh = SubResource("SphereMesh_6l52r")
+
+[node name="elbow" type="Node3D" parent="." unique_id=423039884]
+top_level = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="elbow" unique_id=2026039075]
+mesh = SubResource("SphereMesh_6l52r")
+
+[node name="hand" type="Node3D" parent="." unique_id=1187248251]
+top_level = true
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="hand" unique_id=722825260]
+mesh = SubResource("SphereMesh_6l52r")
+
+[node name="UpperArmMesh" type="MeshInstance3D" parent="." unique_id=1380898130]
+mesh = SubResource("BoxMesh_2feiv")
+
+[node name="LowerArmMesh" type="MeshInstance3D" parent="." unique_id=792136436]
+mesh = SubResource("BoxMesh_oiv1o")
+
+[node name="UpperArm" type="Node3D" parent="." unique_id=371389237]
+
+[node name="VRBody" type="Node" parent="UpperArm" unique_id=998243051 node_paths=PackedStringArray("reference_node")]
+script = ExtResource("2_u5xi8")
+linear_scale = 3.0
+angular_scale = 3.0
+collision_shape = SubResource("BoxShape3D_l3mth")
+reference_node = NodePath("..")
+metadata/_custom_type_script = "uid://bhaqfqfswudyb"
+
+[node name="LowerArm" type="Node3D" parent="." unique_id=437180835]
+
+[node name="VRBody" type="Node" parent="LowerArm" unique_id=290795589 node_paths=PackedStringArray("reference_node")]
+script = ExtResource("2_u5xi8")
+linear_scale = 3.0
+angular_scale = 3.0
+collision_shape = SubResource("BoxShape3D_bm73i")
+reference_node = NodePath("..")
+metadata/_custom_type_script = "uid://bhaqfqfswudyb"

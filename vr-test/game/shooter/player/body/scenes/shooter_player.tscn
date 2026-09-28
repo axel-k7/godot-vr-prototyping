@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://d0oem3hh1gyy2"]
+
+[ext_resource type="Script" uid="uid://dte4l7ec2knos" path="res://game/shooter/player/body/scripts/shooter_player.gd" id="1_kjo01"]
+[ext_resource type="PackedScene" uid="uid://c4t8ayg3lhdqp" path="res://vr/camera/camera.tscn" id="2_kjo01"]
+[ext_resource type="Texture2D" uid="uid://b52unyil8nbmq" path="res://assets/crosshairs/images/image0032.png" id="2_x225v"]
+[ext_resource type="Texture2D" uid="uid://dka2kyiv3u8cy" path="res://assets/crosshairs/images/image0039.png" id="3_jbood"]
+[ext_resource type="PackedScene" uid="uid://cn78lae08ujve" path="res://game/shooter/player/body/scenes/right_arm.tscn" id="6_8o6oe"]
+[ext_resource type="PackedScene" uid="uid://b7daxgr0rrnln" path="res://game/shooter/player/body/scenes/left_hand.tscn" id="7_1euy8"]
+[ext_resource type="PackedScene" uid="uid://crdeipdg8o8wf" path="res://game/shooter/player/body/scenes/right_hand.tscn" id="8_h8643"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lrjh"]
+radius = 0.2
+height = 1.7
+
+[node name="ShooterPlayer" type="XROrigin3D" unique_id=883594130 node_paths=PackedStringArray("shooty_arm", "camera", "left_hand", "right_hand", "left_quad", "right_quad")]
+script = ExtResource("1_kjo01")
+texture_locking = ExtResource("2_x225v")
+texture_locked = ExtResource("3_jbood")
+shooty_arm = NodePath("Camera/RightArm")
+camera = NodePath("Camera")
+left_hand = NodePath("LeftHand")
+right_hand = NodePath("RightHand")
+body_shape = SubResource("CapsuleShape3D_3lrjh")
+left_quad = NodePath("Camera/LeftUIQuad")
+right_quad = NodePath("Camera/RightUIQuad")
+metadata/_custom_type_script = "uid://cgsgaap8oh5p3"
+
+[node name="Camera" parent="." unique_id=1120840776 instance=ExtResource("2_kjo01")]
+
+[node name="LeftUIQuad" type="OpenXRCompositionLayerQuad" parent="Camera" unique_id=318839238 node_paths=PackedStringArray("layer_viewport")]
+layer_viewport = NodePath("../../LeftUIViewport")
+alpha_blend = true
+eye_visibility = 1
+
+[node name="RightUIQuad" type="OpenXRCompositionLayerQuad" parent="Camera" unique_id=990292067 node_paths=PackedStringArray("layer_viewport")]
+layer_viewport = NodePath("../../RightUIViewport")
+alpha_blend = true
+eye_visibility = 2
+
+[node name="RightArm" parent="Camera" unique_id=1396636678 node_paths=PackedStringArray("controller") instance=ExtResource("6_8o6oe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -0.5, 0)
+controller = NodePath("../../RightHand")
+
+[node name="LeftHand" parent="." unique_id=806129621 instance=ExtResource("7_1euy8")]
+
+[node name="RightHand" parent="." unique_id=1711211724 instance=ExtResource("8_h8643")]
+
+[node name="LeftUIViewport" type="SubViewport" parent="." unique_id=1996337403]
+transparent_bg = true
+render_target_update_mode = 4
+
+[node name="RightUIViewport" type="SubViewport" parent="." unique_id=655227926]
+transparent_bg = true
+render_target_update_mode = 4

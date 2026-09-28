@@ -21,6 +21,8 @@ signal cooldown_changed
 @export var texture_locking: Texture
 @export var texture_locked: Texture
 
+@export var shooty_arm: Node3D
+
 func _ready() -> void:
 	super()
 	#this is obviously terrible, here just for testing purposes
@@ -62,8 +64,7 @@ func _shoot_targets(_action_name: String) -> void:
 			var homing_projectile = homing_projectile_res.instantiate()
 			homing_projectile.target = target
 			get_tree().root.add_child(homing_projectile)
-			homing_projectile.global_transform = right_hand.global_transform
-			homing_projectile.global_position += -right_hand.global_basis.z * 1.5 
+			homing_projectile.global_transform = shooty_arm.global_transform
 			
 
 func _target_in_view() -> void:

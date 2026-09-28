@@ -45,8 +45,13 @@ var rot_axis := Vector2.ZERO
 
 var left_ui: UIView
 var right_ui: UIView
-
 ##UI--------------------------
+
+##ANIMATION-------------------
+
+#maybe some other time
+##ANIMATION-------------------
+
 
 func _ready() -> void:
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -58,11 +63,37 @@ func _ready() -> void:
 	get_viewport().use_xr = true
 	
 	var render_target_size = xr_interface.get_render_target_size()
-	var aspect_ratio: float = render_target_size.x / render_target_size.y
+	aspect_ratio = render_target_size.x / render_target_size.y
 	
 	_set_up_ui()
 	_set_up_movement()
 	_bind_inputs()
+
+
+func _physics_process(delta: float) -> void:
+	if !body_rid.is_valid():
+		return
+	
+	_update_shape_height()
+	
+	if !rot_axis.is_zero_approx():
+		rotate_y(-rot_axis.x * ROT_SENS)
+	
+	PhysicsServer3D.body_set_state(body_rid, PhysicsServer3D.BODY_STATE_TRANSFORM, _get_projected_transform())
+	
+	var target_velocity := Vector3.ZERO
+	if !move_axis.is_zero_approx():
+		var input_dir := Vector3(move_axis.x, 0.0, -move_axis.y)
+		var world_dir = camera.global_basis * input_dir
+		world_dir.y = 0
+
+		target_velocity = world_dir.normalized() * MOVE_SPEED
+	
+	velocity.x = target_velocity.x
+	velocity.z = target_velocity.z
+	acceleration.y += GRAVITY
+	
+	_move_and_slide(delta)
 
 
 func _set_up_ui() -> void:
@@ -128,31 +159,6 @@ func _set_up_movement() -> void:
 	
 	parameters.margin = 0.04
 	parameters.recovery_as_collision = true
-
-func _physics_process(delta: float) -> void:
-	if !body_rid.is_valid():
-		return
-	
-	_update_shape_height()
-	
-	if !rot_axis.is_zero_approx():
-		rotate_y(-rot_axis.x * ROT_SENS)
-	
-	PhysicsServer3D.body_set_state(body_rid, PhysicsServer3D.BODY_STATE_TRANSFORM, _get_projected_transform())
-	
-	var target_velocity := Vector3.ZERO
-	if !move_axis.is_zero_approx():
-		var input_dir := Vector3(move_axis.x, 0.0, -move_axis.y)
-		var world_dir = camera.global_basis * input_dir
-		world_dir.y = 0
-
-		target_velocity = world_dir.normalized() * MOVE_SPEED
-	
-	velocity.x = target_velocity.x
-	velocity.z = target_velocity.z
-	acceleration.y += GRAVITY
-	
-	_move_and_slide(delta)
 
 
 func _move_and_slide(delta: float):

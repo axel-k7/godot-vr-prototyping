@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cgyjdicb341bh"]
 
-[ext_resource type="Script" uid="uid://b08b3vb22o60s" path="res://vr/controllers/iktest.gd" id="1_2feiv"]
+[ext_resource type="Script" uid="uid://b08b3vb22o60s" path="res://vr/controllers/iktest.gd" id="1_iq3ng"]
+[ext_resource type="Script" uid="uid://bhaqfqfswudyb" path="res://vr/vr_body.gd" id="2_7otd0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l3mth"]
 transparency = 1
@@ -12,21 +13,29 @@ radius = 0.03
 height = 0.06
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2feiv"]
-albedo_color = Color(1, 0.7490196, 0.3019608, 1)
+albedo_color = Color(1, 0.2784314, 0.43529412, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2feiv"]
 material = SubResource("StandardMaterial3D_2feiv")
-size = Vector3(0.05, 0.05, 0.4)
+size = Vector3(0.05, 0.05, 0.3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6xvv"]
-albedo_color = Color(0.23921569, 0.47843137, 0.3019608, 1)
+albedo_color = Color(0.33333334, 0.4117647, 0.8901961, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_oiv1o"]
 material = SubResource("StandardMaterial3D_m6xvv")
-size = Vector3(0.05, 0.05, 0.4)
+size = Vector3(0.05, 0.05, 0.35)
 
-[node name="iktest" type="Node3D" unique_id=722369590]
-script = ExtResource("1_2feiv")
+[sub_resource type="BoxShape3D" id="BoxShape3D_3lrjh"]
+size = Vector3(0.05, 0.05, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l3mth"]
+size = Vector3(0.05, 0.05, 0.35)
+
+[node name="iktest" type="Node3D" unique_id=722369590 node_paths=PackedStringArray("upper_collision", "lower_collision")]
+script = ExtResource("1_iq3ng")
+upper_collision = NodePath("UpperArm/VRBody")
+lower_collision = NodePath("LowerArm/VRBody")
 
 [node name="shoulder" type="Node3D" parent="." unique_id=75960850]
 
@@ -50,3 +59,19 @@ mesh = SubResource("BoxMesh_2feiv")
 
 [node name="LowerArmMesh" type="MeshInstance3D" parent="." unique_id=792136436]
 mesh = SubResource("BoxMesh_oiv1o")
+
+[node name="UpperArm" type="Node3D" parent="." unique_id=560023497]
+
+[node name="VRBody" type="Node" parent="UpperArm" unique_id=350450764 node_paths=PackedStringArray("reference_node")]
+script = ExtResource("2_7otd0")
+collision_shape = SubResource("BoxShape3D_3lrjh")
+reference_node = NodePath("..")
+metadata/_custom_type_script = "uid://bhaqfqfswudyb"
+
+[node name="LowerArm" type="Node3D" parent="." unique_id=320794716]
+
+[node name="VRBody" type="Node" parent="LowerArm" unique_id=1726192497 node_paths=PackedStringArray("reference_node")]
+script = ExtResource("2_7otd0")
+collision_shape = SubResource("BoxShape3D_l3mth")
+reference_node = NodePath("..")
+metadata/_custom_type_script = "uid://bhaqfqfswudyb"
