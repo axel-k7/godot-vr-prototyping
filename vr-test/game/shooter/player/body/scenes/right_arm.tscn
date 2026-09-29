@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://v7u4sy6ft0el" path="res://vr/ik_joint.gd" id="3_687gx"]
 [ext_resource type="Script" uid="uid://bhaqfqfswudyb" path="res://vr/vr_body.gd" id="4_687gx"]
 
-[sub_resource type="Resource" id="Resource_1mote"]
+[sub_resource type="Resource" id="Resource_lljwc"]
 script = ExtResource("2_lljwc")
 joints = Array[NodePath]([NodePath("Shoulder"), NodePath("Elbow"), NodePath("Hand")])
 metadata/_custom_type_script = "uid://cdu6xwwawmocq"
@@ -42,7 +42,7 @@ size = Vector3(0.05, 0.05, 0.35)
 [node name="RightArm" type="Node3D" unique_id=1396636678 node_paths=PackedStringArray("ik_hand", "meshes", "collisions")]
 script = ExtResource("1_1mote")
 ik_hand = NodePath("Hand")
-arm_ik = SubResource("Resource_1mote")
+limb_ik = SubResource("Resource_lljwc")
 meshes = [NodePath("UpperArmMesh"), NodePath("LowerArmMesh")]
 collisions = [NodePath("UpperArmCollision"), NodePath("LowerArmCollision")]
 metadata/_custom_type_script = "uid://dv37bh6nnj8l0"

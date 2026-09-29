@@ -9,5 +9,5 @@ func _ready() -> void:
 	super()
 
 func _process(delta: float) -> void: 	
-	arm_ik.target_position = controller.global_position
+	limb_ik.target_position = controller.global_position
 	super(delta)

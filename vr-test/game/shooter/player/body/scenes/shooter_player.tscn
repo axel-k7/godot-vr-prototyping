@@ -38,7 +38,7 @@ alpha_blend = true
 eye_visibility = 2
 
 [node name="RightArm" parent="Camera" unique_id=1396636678 node_paths=PackedStringArray("controller") instance=ExtResource("6_8o6oe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.15, -0.1)
 controller = NodePath("../../RightHand")
 
 [node name="LeftHand" parent="." unique_id=806129621 instance=ExtResource("7_1euy8")]
